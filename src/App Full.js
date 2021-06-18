@@ -246,19 +246,7 @@ function App() {
         </a>
       </header>
 
-      <Container>
-        <Card color={color}>
-          <input
-            type={'button'}
-            value={'Cor aleatória'}
-            onClick={() => setColor(randomColor())}
-          />
-        </Card>
-        <CounterButton
-          title={`Click here to increment: ${count}`}
-          onPress={() => setCount(count + 1)}
-        />
-      </Container>
+      
 
       <label htmlFor={'my-inpuyt'}> Enter Text:</label>
       <input

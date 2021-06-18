@@ -1,10 +1,9 @@
+// Acessando todas as bibliotecas importantes para o Código
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useReducer, useEffect } from 'react';
-import axios from 'axios';
-
 
 // constantes, variáveis e objetos
 const styles = {
@@ -46,7 +45,6 @@ const Container = styled.div`
 ///////////////////////////
 // functions e components
 ///////////////////////////
-
 function CardRTernario({ title, subtitle }) {
   return (
     <div style={styles.card}>
@@ -60,28 +58,31 @@ function CardRTernario({ title, subtitle }) {
   )
 }
 
-
 /////////////////////// Main Function  ///////////////////////
+// Objeto App
 function App() {
 
-// funções  
-  function RegistraValores() {
-    console.log(state);
-    alert('vou registrar');
+  function ClearValues() {
+    setNomedoAluno('');
+    setEmail('');
+    setMatricula('');
   }
-  
+
+  // funções  
+  function RegistraValores() {
+    console.log(nome_do_aluno);
+    console.log(email);
+    console.log(matricula);
+    alert('vou registrar');
+    ClearValues();
+  }
+
   // variáveis, constantes e objetos using useState
-  const [state, setState] = useState('');
+  const [nome_do_aluno, setNomedoAluno] = useState('');
   const [email, setEmail] = useState('');
-
-
-  /////////////////////////////////  
-  // compute things
-  /////////////////////////////////
-
+  const [matricula, setMatricula] = useState('');
 
   // elemento
-
   const style = {
     padding: '5px',
     textAlign: 'center',
@@ -92,20 +93,22 @@ function App() {
   // retorno em HTML
   return (
     <div className="App" style={style}>
+
       <header className="App-header">
-        Entrada de Dados
+        Entrada de Dados xxx
       </header>
+
       <label htmlFor={'my-nome'}> Digite seu Nome:</label>
       <input
         id={'my-nome'}
         type={'text'}
-        value={state}
+        value={nome_do_aluno}
         placeholder={'Digite seu Nome'}
         onChange={event => {
-          setState(event.target.value)
+          setNomedoAluno(event.target.value)
         }}
       />
-
+      <br />
       <label htmlFor={'my-email'}> Digite seu Email:</label>
       <input
         id={'my-email'}
@@ -116,15 +119,28 @@ function App() {
           setEmail(event.target.value)
         }}
       />
-      <br /><br />
+
+      <br />
+      <label htmlFor={'my-matricula'}> Digite sua Matrícula:</label>
+      <input
+        id={'my-matricula'}
+        type={'text'}
+        value={matricula}
+        placeholder={'Digite sua Matrícula'}
+        onChange={event => {
+          setMatricula(event.target.value)
+        }}
+      />
+      <br />
       <button
         onClick={() => {
           RegistraValores();
         }}
       >
-        Registro
+        Registro dos Valores
       </button>
 
+      <br></br>
 
     </div>
   );
