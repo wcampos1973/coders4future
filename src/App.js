@@ -30,6 +30,25 @@ function App() {
 
 
   // funções  
+  function validacaoNome(value) {
+    let error;
+    //alert(value);
+    if (value == '') {
+      error = 'Nome tem que ser preenchido';
+    }
+    return error;
+  }
+
+  function validateEmail(value) {
+    let error;
+    if (!value) {
+      error = 'Preencher e-mail';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      error = 'Endereço de e-mail inválido';
+    }
+    return error;
+  }
+
   function RegistraValores() {
     if (nome_do_aluno == '') {
       alert('Favor preencher o nome do aluno');
@@ -80,25 +99,31 @@ function App() {
           alert(JSON.stringify(values, null, 2));
         }}
       >
-        <Form>
-          <label htmlFor="firstName">Nome</label>
-          <Field id="firstName" name="firstName" placeholder="Digite seu primeiro nome" />
-          <br />
-          <label htmlFor="lastName">Sobrenome</label>
-          <Field id="lastName" name="lastName" placeholder="Digite seu sobrenome" />
-          <br />
-          <label htmlFor="email">Email</label>
-          <Field
-            id="email"
-            name="email"
-            placeholder="jane@acme.com"
-            type="email"
-          /><br />
-          <label htmlFor="age">Preencha sua Idade</label>
-          <Field id="age" name="age" placeholder="Digite sua Idade" />
-          <br />
-          <button type="submit">Registrar</button>
-        </Form>
+        {({ errors, touched, validateField, validateForm }) => (
+          <Form>
+            <label htmlFor="firstName">Nome</label>
+            <Field id="firstName" name="firstName" validate={validacaoNome} placeholder="Digite seu primeiro nome" />
+            {errors.firstName && touched.firstName && <div>{errors.firstName}</div>}
+            <br />
+            <label htmlFor="lastName">Sobrenome</label>
+            <Field id="lastName" name="lastName" placeholder="Digite seu sobrenome" />
+            <br />
+            <label htmlFor="email">Email</label>
+            <Field
+              id="email"
+              name="email"
+              placeholder="jane@acme.com"
+              validate={validateEmail}
+              type="text"
+            />
+            {errors.email && touched.email && <div>{errors.email}</div>}
+            <br />
+            <label htmlFor="age">Preencha sua Idade</label>
+            <Field id="age" name="age" placeholder="Digite sua Idade" />
+            <br />            
+            <button type="submit">Registrar</button>
+          </Form>
+        )}
       </Formik>
 
 
