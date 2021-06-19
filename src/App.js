@@ -4,31 +4,10 @@ import './App.css';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useReducer, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import { Formik, Field, Form } from 'formik';
 
 // constantes, variáveis e objetos
-const styles = {
-  card: {
-    padding: '20px',
-    margin: '20px',
-    textAlign: 'center',
-    color: 'white',
-    backgroundColor: 'steelblue',
-    border: '1px solid rgba(0,0,0,0.15)',
-  },
-  title: {
-    fontSize: '18px',
-    lineHeight: '24px',
-  },
-  subtitle: {
-    fontSize: '14px',
-    lineHeight: '18px',
-  },
-  empty: {
-    fontSize: '12px',
-    lineHeight: '15px',
-    opacity: '0.5',
-  },
-}
 
 // styled components
 const Card = styled.div`
@@ -37,7 +16,6 @@ const Card = styled.div`
   color: white;
   background-color: ${props => props.color};
 `
-
 const Container = styled.div`
   padding: 20px;
 `
@@ -45,42 +23,33 @@ const Container = styled.div`
 ///////////////////////////
 // functions e components
 ///////////////////////////
-function CardRTernario({ title, subtitle }) {
-  return (
-    <div style={styles.card}>
-      <h1 style={styles.title}>{title}</h1>
-      {subtitle ? (
-        <h2 style={styles.subtitle}>{subtitle}</h2>
-      ) : (
-        <h3 style={styles.empty}></h3>
-      )}
-    </div>
-  )
-}
 
 /////////////////////// Main Function  ///////////////////////
 // Objeto App
 function App() {
 
-  function ClearValues() {
-    setNomedoAluno('');
-    setEmail('');
-    setMatricula('');
-  }
 
   // funções  
   function RegistraValores() {
-    console.log(nome_do_aluno);
-    console.log(email);
-    console.log(matricula);
-    alert('vou registrar');
-    ClearValues();
+    if (nome_do_aluno == '') {
+      alert('Favor preencher o nome do aluno');
+    }
+    else {
+      console.log(nome_do_aluno);
+      console.log(email);
+      console.log(matricula);
+      console.log(idade);
+      alert('vou registrar');
+
+    }
+
   }
 
   // variáveis, constantes e objetos using useState
   const [nome_do_aluno, setNomedoAluno] = useState('');
   const [email, setEmail] = useState('');
   const [matricula, setMatricula] = useState('');
+  const [idade, setIdade] = useState('');
 
   // elemento
   const style = {
@@ -92,55 +61,46 @@ function App() {
 
   // retorno em HTML
   return (
+
     <div className="App" style={style}>
 
       <header className="App-header">
-        Entrada de Dados xxx
+        Entrada de Dados usando Formik
       </header>
 
-      <label htmlFor={'my-nome'}> Digite seu Nome:</label>
-      <input
-        id={'my-nome'}
-        type={'text'}
-        value={nome_do_aluno}
-        placeholder={'Digite seu Nome'}
-        onChange={event => {
-          setNomedoAluno(event.target.value)
+      <Formik
+        initialValues={{
+          firstName: '',
+          lastName: '',
+          email: '',
+          age: '',
         }}
-      />
-      <br />
-      <label htmlFor={'my-email'}> Digite seu Email:</label>
-      <input
-        id={'my-email'}
-        type={'email'}
-        value={email}
-        placeholder={'Digite seu Email'}
-        onChange={event => {
-          setEmail(event.target.value)
-        }}
-      />
-
-      <br />
-      <label htmlFor={'my-matricula'}> Digite sua Matrícula:</label>
-      <input
-        id={'my-matricula'}
-        type={'text'}
-        value={matricula}
-        placeholder={'Digite sua Matrícula'}
-        onChange={event => {
-          setMatricula(event.target.value)
-        }}
-      />
-      <br />
-      <button
-        onClick={() => {
-          RegistraValores();
+        onSubmit={async (values) => {
+          await new Promise((r) => setTimeout(r, 500));
+          alert(JSON.stringify(values, null, 2));
         }}
       >
-        Registro dos Valores
-      </button>
+        <Form>
+          <label htmlFor="firstName">Nome</label>
+          <Field id="firstName" name="firstName" placeholder="Digite seu primeiro nome" />
+          <br />
+          <label htmlFor="lastName">Sobrenome</label>
+          <Field id="lastName" name="lastName" placeholder="Digite seu sobrenome" />
+          <br />
+          <label htmlFor="email">Email</label>
+          <Field
+            id="email"
+            name="email"
+            placeholder="jane@acme.com"
+            type="email"
+          /><br />
+          <label htmlFor="age">Preencha sua Idade</label>
+          <Field id="age" name="age" placeholder="Digite sua Idade" />
+          <br />
+          <button type="submit">Registrar</button>
+        </Form>
+      </Formik>
 
-      <br></br>
 
     </div>
   );
